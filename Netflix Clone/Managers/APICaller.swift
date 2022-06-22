@@ -19,17 +19,20 @@ class APICAller {
     
     func getTrendingMovies(completion: @escaping (String) -> Void) {
         guard let url = URL(string: "\(Constants.baseURL)/3/trending/all/day?api_key=\(Constants.API_KEY)") else {return}
-        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { (data, response, error) in
             guard let data = data, error == nil else {
                 return
             }
             
             do {
+//                let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+//                print(result)
+                print(data)
                 let results = try JSONDecoder().decode(TrendingMoviesResponse.self, from: data)
-                print(results.results[0].original_name)
+                print(results)
                 
             } catch {
-                print(error.localizedDescription)
+                print(error)
             }
         }
         
